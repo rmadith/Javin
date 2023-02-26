@@ -1,3 +1,10 @@
+###
+# Author: Muthu Adithya Ramnarayanan
+# This file is used to create the graph database
+# It uses the data from Github to create the graph
+# It uses the OpenAI API to get the keywords from the description
+# It uses the Neo4j API to create the graph
+###
 from neo4j import GraphDatabase
 import openai
 import graph
@@ -72,7 +79,7 @@ def create_graph():
          # Get the description of the project
          description = project["Description"]
          # Get the keywords from the description
-         keywords = getkeywords(description)
+         keywords = get_tags(description)
          # Split the keywords into a list
          keywords = keywords.split(",")
          print(keywords)
@@ -153,4 +160,3 @@ def get_shortest(array):
     nodes = json.dumps(nodes)
     return nodes_list
 
-create_graph_final()

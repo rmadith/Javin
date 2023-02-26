@@ -1,3 +1,10 @@
+###
+# Author: Muthu Adithya Ramnarayanan
+# This file contains all the functions that are used to create the graph database
+# It uses the Neo4j API to create the graph
+# They are quick functions to call Neo4j Queries
+###
+
 from neo4j import GraphDatabase
 
 # Create a Project Node and unique information about it

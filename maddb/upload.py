@@ -9,6 +9,13 @@ import requests
 
 bp = Blueprint('upload', __name__, url_prefix='/upload')
 
+uri = "bolt://localhost:7687"
+user = "neo4j"
+password = "password"
+driver = GraphDatabase.driver(uri, auth=(user, password))
+
+openai.api_key = "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"
+
 session = driver.session()
 
 
@@ -60,7 +67,7 @@ def upload():
 }
 
 
-def call_gpt3(query):
+def call_gpt3(description):
   response = openai.Completion.create(
     model="text-davinci-003",
     prompt="Use Github Topics to create a list of 6 topics for the prompt (Seperate by commas)- \n" + description + "\nGithub Topics:",

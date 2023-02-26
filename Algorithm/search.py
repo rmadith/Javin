@@ -1,3 +1,10 @@
+###
+# Author: Muthu Adithya Ramnarayanan
+# This file contains all the functions that are used to search the graph database
+# It uses the Neo4j API to search the graph
+# They are quick functions to call Neo4j Queries
+###
+
 # Given multiple keywords, find projects that match all of them
 def find_projects(tx, keywords):
     # Create a list of projects that match all keywords
