@@ -96,22 +96,16 @@ def create_graph_final():
             project_name_link = re.sub(r'\[.*\]\((.*)\)', r'\1', project["Project Name"])
             project_name = project_name_link.split("/")[3] + "/" + project_name_link.split("/")[4]
 
-            if counter <= 1802:
-                counter += 1
-                continue
             
             git_json = get_tags(project_name)
             
             
             # Create Graph
-            if counter > 1802:
-                 if graph.create_project( session, counter, project_name, project["Description"], git_json["stargazers_count"], git_json["forks_count"], project["Ranking"], project_name_link, git_json["size"], git_json["language"] ):
-                      counter += 1
-                 else:
-                     continue
-            else:
+            if graph.create_project( session, counter, project_name, project["Description"], git_json["stargazers_count"], git_json["forks_count"], project["Ranking"], project_name_link, git_json["size"], git_json["language"] ):
                 counter += 1
+            else:
                 continue
+
             
             for keyword in git_json["topics"]:
                 if graph.create_keyword(session, keyword, counter_id):
