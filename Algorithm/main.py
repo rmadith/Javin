@@ -14,7 +14,7 @@ import search
 import requests 
 
 # Set your OpenAI API key
-openai.api_key = "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"
+openai.api_key = ""
 
 # Set your Neo4j database credentials
 uri = "bolt://localhost:7687"

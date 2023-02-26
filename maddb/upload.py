@@ -14,7 +14,7 @@ user = "neo4j"
 password = "password"
 driver = GraphDatabase.driver(uri, auth=(user, password))
 
-openai.api_key = "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"
+openai.api_key = ""
 
 session = driver.session()
 
