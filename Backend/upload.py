@@ -1,6 +1,15 @@
 from flask import (Blueprint, request, json)
 
+from neo4j import GraphDatabase
+import openai
+from Algorithm import graph, search
+import json
+import re
+import requests 
+
 bp = Blueprint('upload', __name__, url_prefix='/upload')
+
+session = driver.session()
 
 
 @bp.route('/', methods=['POST'])
@@ -46,100 +55,29 @@ def upload():
 #    }
 
     return {
-  "keywords": ["best", "project", "james"],
-  "hits": [
-    {
-      "name": "Best project",
-      "description": "This is a description",
-      "link": "https://github.com/james-gavin/",
-      "stars": 1
-    },
-    {
-      "name": "I hate my life",
-      "description": "I just want to die",
-      "link": "https://github.com/james-gavin/",
-      "stars": 5
-    },
-    {
-      "name": "What has the world come to",
-      "description": "i just made some eggs",
-      "link": "https://github.com/james-gavin/",
-      "stars": 69
-    },
-    {
-      "name": "What has the world come to",
-      "description": "i just made some eggs",
-      "link": "https://github.com/james-gavin/",
-      "stars": 69
-    },
-    {
-      "name": "What has the world come to",
-      "description": "i just made some eggs",
-      "link": "https://github.com/james-gavin/",
-      "stars": 69
-    },
-    {
-      "name": "What has the world come to",
-      "description": "i just made some eggs",
-      "link": "https://github.com/james-gavin/",
-      "stars": 69
-    },
-    {
-      "name": "What has the world come to",
-      "description": "i just made some eggs",
-      "link": "https://github.com/james-gavin/",
-      "stars": 69
-    },
-    {
-      "name": "What has the world come to",
-      "description": "i just made some eggs",
-      "link": "https://github.com/james-gavin/",
-      "stars": 69
-    },
-    {
-      "name": "What has the world come to",
-      "description": "i just made some eggs",
-      "link": "https://github.com/james-gavin/",
-      "stars": 69
-    },
-    {
-      "name": "What has the world come to",
-      "description": "i just made some eggs",
-      "link": "https://github.com/james-gavin/",
-      "stars": 69
-    },
-    {
-      "name": "What has the world come to",
-      "description": "i just made some eggs",
-      "link": "https://github.com/james-gavin/",
-      "stars": 69
-    },
-    {
-      "name": "What has the world come to",
-      "description": "i just made some eggs",
-      "link": "https://github.com/james-gavin/",
-      "stars": 69
-    },
-    {
-      "name": "What has the world come to",
-      "description": "i just made some eggs",
-      "link": "https://github.com/james-gavin/",
-      "stars": 69
-    },
-    {
-      "name": "What has the world come to",
-      "description": "i just made some eggs",
-      "link": "https://github.com/james-gavin/",
-      "stars": 69
-    }
-  ]
+  "keywords": gpt3_response,
+  "hits": neo4js_response
 }
 
 
 def call_gpt3(query):
-    # call gpt3 with our query parameters
-    return "finish me"
+  response = openai.Completion.create(
+    model="text-davinci-003",
+    prompt="Use Github Topics to create a list of 6 topics for the prompt (Seperate by commas)- \n" + description + "\nGithub Topics:",
+    temperature=0.2,
+    max_tokens=265,
+    top_p=1.0,
+    frequency_penalty=0.0,
+    presence_penalty=0.0
+  )
+  text = response["choices"][0]["text"].strip().split(",")
+  return text
 
-def call_neo4js(keywords):
-    # query neo4js with our keywords
-    return "finish me"
+def call_neo4js(session, array):
+    nodes_list = []
+    nodes = search.find_all_shortest(session, array)
+    for i in nodes:
+        node = search.getinformations(session, i)
+        nodes_list.append(node)
+    nodes = json.dumps(nodes)
+    return nodes_list

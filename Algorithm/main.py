@@ -120,6 +120,27 @@ def create_graph_final():
                    f.write(str(counter) + "," + project_name + "," + project["Description"] + "," + str(git_json["stargazers_count"]) + "," + str(git_json["forks_count"]) + "," + project["Ranking"] + "," + project_name_link + "," + str(git_json["size"]) + "," + git_json["language"] + "," + str(git_json["topics"]) + "\n")
                 except:
                     continue
+
+
+def create_graph_using_csv():
+    counter = 0
+    counter_id = 0
+    with open('data_repo.csv') as f:
+        data = f.readlines()
+        for line in data:
+            line = line.split(",")
+            if graph.create_project( session, counter, line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8] ):
+                counter += 1
+            else:
+                continue
+
+            
+            for keyword in line[9].split(" "):
+                if graph.create_keyword(session, keyword, counter_id):
+                    counter_id += 1
+                graph.create_relationship(session, line[1], keyword, 1)
+
+            print(counter)
                         
 
 
