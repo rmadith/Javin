@@ -36,7 +36,7 @@ docker buildx
 If you have arm, you will need to - 
 
 ```
-ddocker run \
+docker run \
     --name testneo4j \
     -p7474:7474 -p7687:7687 \
     -d \
@@ -48,6 +48,13 @@ ddocker run \
     neo4j-hackathon:latest
 ```
 
+## Backend Dev Environment
+To run the backend flask service run - 
+
+```
+chmod +x start.sh
+./start.sh
+```
 
 
  
