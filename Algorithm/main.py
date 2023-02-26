@@ -37,7 +37,7 @@ with open('repos.json') as f:
 
 def get_tags(link):
     link = "https://api.github.com/repos/" + link 
-    headers = {'Authorization': 'token ' + "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"}
+    headers = {'Authorization': 'token ' + "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"}
     # link is a github link
     response = requests.get(link, headers=headers)
     # get the tags from the github link
@@ -153,3 +153,4 @@ def get_shortest(array):
     nodes = json.dumps(nodes)
     return nodes_list
 
+create_graph_final()
